@@ -18,6 +18,7 @@ import { Lawyer } from "../../lawyer/base/Lawyer";
 import { IsJSONValue } from "../../validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { JsonValue } from "type-fest";
+import { SupportTicket } from "../../supportTicket/base/SupportTicket";
 
 @ObjectType()
 class User {
@@ -116,6 +117,15 @@ class User {
   @IsJSONValue()
   @Field(() => GraphQLJSON)
   roles!: JsonValue;
+
+  @ApiProperty({
+    required: false,
+    type: () => [SupportTicket],
+  })
+  @ValidateNested()
+  @Type(() => SupportTicket)
+  @IsOptional()
+  supportTickets?: Array<SupportTicket>;
 
   @ApiProperty({
     required: true,

@@ -17,6 +17,7 @@ import { Type } from "class-transformer";
 import { CaseModelListRelationFilter } from "../../caseModel/base/CaseModelListRelationFilter";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { StringFilter } from "../../util/StringFilter";
+import { InvoiceListRelationFilter } from "../../invoice/base/InvoiceListRelationFilter";
 import { PaymentListRelationFilter } from "../../payment/base/PaymentListRelationFilter";
 import { RatingListRelationFilter } from "../../rating/base/RatingListRelationFilter";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
@@ -68,6 +69,18 @@ class ClientWhereInput {
     nullable: true,
   })
   id?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => InvoiceListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => InvoiceListRelationFilter)
+  @IsOptional()
+  @Field(() => InvoiceListRelationFilter, {
+    nullable: true,
+  })
+  invoices?: InvoiceListRelationFilter;
 
   @ApiProperty({
     required: false,

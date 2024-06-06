@@ -15,6 +15,7 @@ import { Booking } from "../../booking/base/Booking";
 import { ValidateNested, IsOptional, IsString, IsDate } from "class-validator";
 import { Type } from "class-transformer";
 import { CaseModel } from "../../caseModel/base/CaseModel";
+import { Invoice } from "../../invoice/base/Invoice";
 import { Payment } from "../../payment/base/Payment";
 import { Rating } from "../../rating/base/Rating";
 import { User } from "../../user/base/User";
@@ -65,6 +66,15 @@ class Client {
   @IsString()
   @Field(() => String)
   id!: string;
+
+  @ApiProperty({
+    required: false,
+    type: () => [Invoice],
+  })
+  @ValidateNested()
+  @Type(() => Invoice)
+  @IsOptional()
+  invoices?: Array<Invoice>;
 
   @ApiProperty({
     required: false,

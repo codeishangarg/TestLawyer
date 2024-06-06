@@ -1,6 +1,7 @@
 import { ClientCreateNestedManyWithoutUsersInput } from "./ClientCreateNestedManyWithoutUsersInput";
 import { LawyerCreateNestedManyWithoutUsersInput } from "./LawyerCreateNestedManyWithoutUsersInput";
 import { InputJsonValue } from "../../types";
+import { SupportTicketCreateNestedManyWithoutUsersInput } from "./SupportTicketCreateNestedManyWithoutUsersInput";
 
 export type UserCreateInput = {
   clients?: ClientCreateNestedManyWithoutUsersInput;
@@ -12,5 +13,6 @@ export type UserCreateInput = {
   password: string;
   resetToken?: string | null;
   roles: InputJsonValue;
+  supportTickets?: SupportTicketCreateNestedManyWithoutUsersInput;
   username: string;
 };

@@ -10,12 +10,15 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
+
 import {
   Prisma,
   User as PrismaUser,
   Client as PrismaClient,
   Lawyer as PrismaLawyer,
+  SupportTicket as PrismaSupportTicket,
 } from "@prisma/client";
+
 import { PasswordService } from "../../auth/password.service";
 import { transformStringFieldUpdateInput } from "../../prisma.util";
 
@@ -95,5 +98,16 @@ export class UserServiceBase {
         where: { id: parentId },
       })
       .lawyers(args);
+  }
+
+  async findSupportTickets(
+    parentId: string,
+    args: Prisma.SupportTicketFindManyArgs
+  ): Promise<PrismaSupportTicket[]> {
+    return this.prisma.user
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .supportTickets(args);
   }
 }

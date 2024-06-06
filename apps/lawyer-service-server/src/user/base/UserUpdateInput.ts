@@ -18,6 +18,7 @@ import { LawyerUpdateManyWithoutUsersInput } from "./LawyerUpdateManyWithoutUser
 import { IsJSONValue } from "../../validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
+import { SupportTicketUpdateManyWithoutUsersInput } from "./SupportTicketUpdateManyWithoutUsersInput";
 
 @InputType()
 class UserUpdateInput {
@@ -120,6 +121,18 @@ class UserUpdateInput {
     nullable: true,
   })
   roles?: InputJsonValue;
+
+  @ApiProperty({
+    required: false,
+    type: () => SupportTicketUpdateManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => SupportTicketUpdateManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => SupportTicketUpdateManyWithoutUsersInput, {
+    nullable: true,
+  })
+  supportTickets?: SupportTicketUpdateManyWithoutUsersInput;
 
   @ApiProperty({
     required: false,

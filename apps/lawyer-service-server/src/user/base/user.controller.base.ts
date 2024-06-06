@@ -32,6 +32,9 @@ import { ClientWhereUniqueInput } from "../../client/base/ClientWhereUniqueInput
 import { LawyerFindManyArgs } from "../../lawyer/base/LawyerFindManyArgs";
 import { Lawyer } from "../../lawyer/base/Lawyer";
 import { LawyerWhereUniqueInput } from "../../lawyer/base/LawyerWhereUniqueInput";
+import { SupportTicketFindManyArgs } from "../../supportTicket/base/SupportTicketFindManyArgs";
+import { SupportTicket } from "../../supportTicket/base/SupportTicket";
+import { SupportTicketWhereUniqueInput } from "../../supportTicket/base/SupportTicketWhereUniqueInput";
 
 @swagger.ApiBearerAuth()
 @common.UseGuards(defaultAuthGuard.DefaultAuthGuard, nestAccessControl.ACGuard)
@@ -423,6 +426,110 @@ export class UserControllerBase {
   ): Promise<void> {
     const data = {
       lawyers: {
+        disconnect: body,
+      },
+    };
+    await this.service.updateUser({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @common.Get("/:id/supportTickets")
+  @ApiNestedQuery(SupportTicketFindManyArgs)
+  @nestAccessControl.UseRoles({
+    resource: "SupportTicket",
+    action: "read",
+    possession: "any",
+  })
+  async findSupportTickets(
+    @common.Req() request: Request,
+    @common.Param() params: UserWhereUniqueInput
+  ): Promise<SupportTicket[]> {
+    const query = plainToClass(SupportTicketFindManyArgs, request.query);
+    const results = await this.service.findSupportTickets(params.id, {
+      ...query,
+      select: {
+        createdAt: true,
+        description: true,
+        id: true,
+        status: true,
+        subject: true,
+        updatedAt: true,
+
+        user: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @common.Post("/:id/supportTickets")
+  @nestAccessControl.UseRoles({
+    resource: "User",
+    action: "update",
+    possession: "any",
+  })
+  async connectSupportTickets(
+    @common.Param() params: UserWhereUniqueInput,
+    @common.Body() body: SupportTicketWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      supportTickets: {
+        connect: body,
+      },
+    };
+    await this.service.updateUser({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Patch("/:id/supportTickets")
+  @nestAccessControl.UseRoles({
+    resource: "User",
+    action: "update",
+    possession: "any",
+  })
+  async updateSupportTickets(
+    @common.Param() params: UserWhereUniqueInput,
+    @common.Body() body: SupportTicketWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      supportTickets: {
+        set: body,
+      },
+    };
+    await this.service.updateUser({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Delete("/:id/supportTickets")
+  @nestAccessControl.UseRoles({
+    resource: "User",
+    action: "update",
+    possession: "any",
+  })
+  async disconnectSupportTickets(
+    @common.Param() params: UserWhereUniqueInput,
+    @common.Body() body: SupportTicketWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      supportTickets: {
         disconnect: body,
       },
     };

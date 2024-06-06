@@ -15,6 +15,7 @@ import { BookingUpdateManyWithoutClientsInput } from "./BookingUpdateManyWithout
 import { ValidateNested, IsOptional, IsString } from "class-validator";
 import { Type } from "class-transformer";
 import { CaseModelUpdateManyWithoutClientsInput } from "./CaseModelUpdateManyWithoutClientsInput";
+import { InvoiceUpdateManyWithoutClientsInput } from "./InvoiceUpdateManyWithoutClientsInput";
 import { PaymentUpdateManyWithoutClientsInput } from "./PaymentUpdateManyWithoutClientsInput";
 import { RatingUpdateManyWithoutClientsInput } from "./RatingUpdateManyWithoutClientsInput";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
@@ -55,6 +56,18 @@ class ClientUpdateInput {
     nullable: true,
   })
   contactInformation?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => InvoiceUpdateManyWithoutClientsInput,
+  })
+  @ValidateNested()
+  @Type(() => InvoiceUpdateManyWithoutClientsInput)
+  @IsOptional()
+  @Field(() => InvoiceUpdateManyWithoutClientsInput, {
+    nullable: true,
+  })
+  invoices?: InvoiceUpdateManyWithoutClientsInput;
 
   @ApiProperty({
     required: false,

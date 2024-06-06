@@ -1,5 +1,6 @@
 import { Booking } from "../booking/Booking";
 import { CaseModel } from "../caseModel/CaseModel";
+import { Invoice } from "../invoice/Invoice";
 import { Payment } from "../payment/Payment";
 import { Rating } from "../rating/Rating";
 import { User } from "../user/User";
@@ -9,6 +10,7 @@ export type Lawyer = {
   cases?: Array<CaseModel>;
   createdAt: Date;
   id: string;
+  invoices?: Array<Invoice>;
   location: string | null;
   payments?: Array<Payment>;
   rating: number | null;

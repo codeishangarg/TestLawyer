@@ -3,6 +3,7 @@ import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { StringFilter } from "../../util/StringFilter";
 import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
 import { LawyerListRelationFilter } from "../lawyer/LawyerListRelationFilter";
+import { SupportTicketListRelationFilter } from "../supportTicket/SupportTicketListRelationFilter";
 
 export type UserWhereInput = {
   clients?: ClientListRelationFilter;
@@ -13,5 +14,6 @@ export type UserWhereInput = {
   lastName?: StringNullableFilter;
   lawyers?: LawyerListRelationFilter;
   resetToken?: StringNullableFilter;
+  supportTickets?: SupportTicketListRelationFilter;
   username?: StringFilter;
 };

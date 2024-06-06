@@ -16,6 +16,7 @@ import {
   Lawyer as PrismaLawyer,
   Booking as PrismaBooking,
   CaseModel as PrismaCaseModel,
+  Invoice as PrismaInvoice,
   Payment as PrismaPayment,
   Rating as PrismaRating,
   User as PrismaUser,
@@ -74,6 +75,17 @@ export class LawyerServiceBase {
         where: { id: parentId },
       })
       .cases(args);
+  }
+
+  async findInvoices(
+    parentId: string,
+    args: Prisma.InvoiceFindManyArgs
+  ): Promise<PrismaInvoice[]> {
+    return this.prisma.lawyer
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .invoices(args);
   }
 
   async findPayments(

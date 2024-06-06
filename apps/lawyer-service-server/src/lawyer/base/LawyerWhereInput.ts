@@ -16,6 +16,7 @@ import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
 import { CaseModelListRelationFilter } from "../../caseModel/base/CaseModelListRelationFilter";
 import { StringFilter } from "../../util/StringFilter";
+import { InvoiceListRelationFilter } from "../../invoice/base/InvoiceListRelationFilter";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { PaymentListRelationFilter } from "../../payment/base/PaymentListRelationFilter";
 import { FloatNullableFilter } from "../../util/FloatNullableFilter";
@@ -58,6 +59,18 @@ class LawyerWhereInput {
     nullable: true,
   })
   id?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => InvoiceListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => InvoiceListRelationFilter)
+  @IsOptional()
+  @Field(() => InvoiceListRelationFilter, {
+    nullable: true,
+  })
+  invoices?: InvoiceListRelationFilter;
 
   @ApiProperty({
     required: false,

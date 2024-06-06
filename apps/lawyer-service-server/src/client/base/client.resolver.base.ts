@@ -30,6 +30,8 @@ import { BookingFindManyArgs } from "../../booking/base/BookingFindManyArgs";
 import { Booking } from "../../booking/base/Booking";
 import { CaseModelFindManyArgs } from "../../caseModel/base/CaseModelFindManyArgs";
 import { CaseModel } from "../../caseModel/base/CaseModel";
+import { InvoiceFindManyArgs } from "../../invoice/base/InvoiceFindManyArgs";
+import { Invoice } from "../../invoice/base/Invoice";
 import { PaymentFindManyArgs } from "../../payment/base/PaymentFindManyArgs";
 import { Payment } from "../../payment/base/Payment";
 import { RatingFindManyArgs } from "../../rating/base/RatingFindManyArgs";
@@ -195,6 +197,26 @@ export class ClientResolverBase {
     @graphql.Args() args: CaseModelFindManyArgs
   ): Promise<CaseModel[]> {
     const results = await this.service.findCases(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => [Invoice], { name: "invoices" })
+  @nestAccessControl.UseRoles({
+    resource: "Invoice",
+    action: "read",
+    possession: "any",
+  })
+  async findInvoices(
+    @graphql.Parent() parent: Client,
+    @graphql.Args() args: InvoiceFindManyArgs
+  ): Promise<Invoice[]> {
+    const results = await this.service.findInvoices(parent.id, args);
 
     if (!results) {
       return [];

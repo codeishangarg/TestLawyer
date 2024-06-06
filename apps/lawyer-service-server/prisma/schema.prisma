@@ -7,11 +7,26 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model Client {
+  bookings           Booking[]
+  cases              CaseModel[]
+  contactInformation String?
+  createdAt          DateTime    @default(now())
+  id                 String      @id @default(cuid())
+  invoices           Invoice[]
+  payments           Payment[]
+  ratings            Rating[]
+  updatedAt          DateTime    @updatedAt
+  user               User?       @relation(fields: [userId], references: [id])
+  userId             String?
+}
+
 model Lawyer {
   bookings    Booking[]
   cases       CaseModel[]
   createdAt   DateTime                @default(now())
   id          String                  @id @default(cuid())
+  invoices    Invoice[]
   location    String?
   payments    Payment[]
   rating      Float?
@@ -22,17 +37,16 @@ model Lawyer {
   userId      String?
 }
 
-model Client {
-  bookings           Booking[]
-  cases              CaseModel[]
-  contactInformation String?
-  createdAt          DateTime    @default(now())
-  id                 String      @id @default(cuid())
-  payments           Payment[]
-  ratings            Rating[]
-  updatedAt          DateTime    @updatedAt
-  user               User?       @relation(fields: [userId], references: [id])
-  userId             String?
+model Rating {
+  client    Client?  @relation(fields: [clientId], references: [id])
+  clientId  String?
+  comments  String?
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  lawyer    Lawyer?  @relation(fields: [lawyerId], references: [id])
+  lawyerId  String?
+  rating    Float?
+  updatedAt DateTime @updatedAt
 }
 
 model Booking {
@@ -59,18 +73,6 @@ model Payment {
   updatedAt DateTime           @updatedAt
 }
 
-model Rating {
-  client    Client?  @relation(fields: [clientId], references: [id])
-  clientId  String?
-  comments  String?
-  createdAt DateTime @default(now())
-  id        String   @id @default(cuid())
-  lawyer    Lawyer?  @relation(fields: [lawyerId], references: [id])
-  lawyerId  String?
-  rating    Float?
-  updatedAt DateTime @updatedAt
-}
-
 model Message {
   content   String?
   createdAt DateTime @default(now())
@@ -93,19 +95,57 @@ model CaseModel {
 }
 
 model User {
-  clients    Client[]
-  createdAt  DateTime  @default(now())
-  email      String?   @unique
-  firstName  String?
-  id         String    @id @default(cuid())
-  lastLogin  DateTime?
-  lastName   String?
-  lawyers    Lawyer[]
-  password   String
-  resetToken String?
-  roles      Json
-  updatedAt  DateTime  @updatedAt
-  username   String    @unique
+  clients        Client[]
+  createdAt      DateTime        @default(now())
+  email          String?         @unique
+  firstName      String?
+  id             String          @id @default(cuid())
+  lastLogin      DateTime?
+  lastName       String?
+  lawyers        Lawyer[]
+  password       String
+  resetToken     String?
+  roles          Json
+  supportTickets SupportTicket[]
+  updatedAt      DateTime        @updatedAt
+  username       String          @unique
+}
+
+model Invoice {
+  amount        Float?
+  caseReference String?
+  client        Client?            @relation(fields: [clientId], references: [id])
+  clientId      String?
+  createdAt     DateTime           @default(now())
+  gst           Float?
+  id            String             @id @default(cuid())
+  lawyer        Lawyer?            @relation(fields: [lawyerId], references: [id])
+  lawyerId      String?
+  status        EnumInvoiceStatus?
+  totalAmount   Float?
+  updatedAt     DateTime           @updatedAt
+}
+
+model SupportTicket {
+  createdAt   DateTime                 @default(now())
+  description String?
+  id          String                   @id @default(cuid())
+  status      EnumSupportTicketStatus?
+  subject     String?
+  updatedAt   DateTime                 @updatedAt
+  user        User?                    @relation(fields: [userId], references: [id])
+  userId      String?
+}
+
+model RazorpayPayment {
+  amount    Float?
+  createdAt DateTime                   @default(now())
+  currency  String?
+  id        String                     @id @default(cuid())
+  orderId   String?
+  paymentId String?
+  status    EnumRazorpayPaymentStatus?
+  updatedAt DateTime                   @updatedAt
 }
 
 enum EnumLawyerSpecialties {
@@ -121,5 +161,17 @@ enum EnumPaymentStatus {
 }
 
 enum EnumCaseModelStatus {
+  Option1
+}
+
+enum EnumInvoiceStatus {
+  Option1
+}
+
+enum EnumSupportTicketStatus {
+  Option1
+}
+
+enum EnumRazorpayPaymentStatus {
   Option1
 }

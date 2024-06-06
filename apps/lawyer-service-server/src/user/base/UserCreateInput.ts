@@ -18,6 +18,7 @@ import { LawyerCreateNestedManyWithoutUsersInput } from "./LawyerCreateNestedMan
 import { IsJSONValue } from "../../validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
+import { SupportTicketCreateNestedManyWithoutUsersInput } from "./SupportTicketCreateNestedManyWithoutUsersInput";
 
 @InputType()
 class UserCreateInput {
@@ -114,6 +115,18 @@ class UserCreateInput {
   @IsJSONValue()
   @Field(() => GraphQLJSON)
   roles!: InputJsonValue;
+
+  @ApiProperty({
+    required: false,
+    type: () => SupportTicketCreateNestedManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => SupportTicketCreateNestedManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => SupportTicketCreateNestedManyWithoutUsersInput, {
+    nullable: true,
+  })
+  supportTickets?: SupportTicketCreateNestedManyWithoutUsersInput;
 
   @ApiProperty({
     required: true,

@@ -14,14 +14,17 @@ import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-grpc";
 import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-node";
 import { CacheModule } from "@nestjs/cache-manager";
 import { redisStore } from "cache-manager-ioredis-yet";
-import { LawyerModule } from "./lawyer/lawyer.module";
 import { ClientModule } from "./client/client.module";
+import { LawyerModule } from "./lawyer/lawyer.module";
+import { RatingModule } from "./rating/rating.module";
 import { BookingModule } from "./booking/booking.module";
 import { PaymentModule } from "./payment/payment.module";
-import { RatingModule } from "./rating/rating.module";
 import { MessageModule } from "./message/message.module";
 import { CaseModelModule } from "./caseModel/caseModel.module";
 import { UserModule } from "./user/user.module";
+import { InvoiceModule } from "./invoice/invoice.module";
+import { SupportTicketModule } from "./supportTicket/supportTicket.module";
+import { RazorpayPaymentModule } from "./razorpayPayment/razorpayPayment.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
@@ -44,14 +47,17 @@ import { AuthModule } from "./auth/auth.module";
     AuthModule,
     KafkaModule,
     LoggerModule,
-    LawyerModule,
     ClientModule,
+    LawyerModule,
+    RatingModule,
     BookingModule,
     PaymentModule,
-    RatingModule,
     MessageModule,
     CaseModelModule,
     UserModule,
+    InvoiceModule,
+    SupportTicketModule,
+    RazorpayPaymentModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,
