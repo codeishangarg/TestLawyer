@@ -1,0 +1,125 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Lawyer {
+  bookings    Booking[]
+  cases       CaseModel[]
+  createdAt   DateTime                @default(now())
+  id          String                  @id @default(cuid())
+  location    String?
+  payments    Payment[]
+  rating      Float?
+  ratings     Rating[]
+  specialties EnumLawyerSpecialties[]
+  updatedAt   DateTime                @updatedAt
+  user        User?                   @relation(fields: [userId], references: [id])
+  userId      String?
+}
+
+model Client {
+  bookings           Booking[]
+  cases              CaseModel[]
+  contactInformation String?
+  createdAt          DateTime    @default(now())
+  id                 String      @id @default(cuid())
+  payments           Payment[]
+  ratings            Rating[]
+  updatedAt          DateTime    @updatedAt
+  user               User?       @relation(fields: [userId], references: [id])
+  userId             String?
+}
+
+model Booking {
+  client      Client?            @relation(fields: [clientId], references: [id])
+  clientId    String?
+  createdAt   DateTime           @default(now())
+  id          String             @id @default(cuid())
+  lawyer      Lawyer?            @relation(fields: [lawyerId], references: [id])
+  lawyerId    String?
+  scheduledAt DateTime?
+  status      EnumBookingStatus?
+  updatedAt   DateTime           @updatedAt
+}
+
+model Payment {
+  amount    Float?
+  client    Client?            @relation(fields: [clientId], references: [id])
+  clientId  String?
+  createdAt DateTime           @default(now())
+  id        String             @id @default(cuid())
+  lawyer    Lawyer?            @relation(fields: [lawyerId], references: [id])
+  lawyerId  String?
+  status    EnumPaymentStatus?
+  updatedAt DateTime           @updatedAt
+}
+
+model Rating {
+  client    Client?  @relation(fields: [clientId], references: [id])
+  clientId  String?
+  comments  String?
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  lawyer    Lawyer?  @relation(fields: [lawyerId], references: [id])
+  lawyerId  String?
+  rating    Float?
+  updatedAt DateTime @updatedAt
+}
+
+model Message {
+  content   String?
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  receiver  String?
+  sender    String?
+  updatedAt DateTime @updatedAt
+}
+
+model CaseModel {
+  client      Client?              @relation(fields: [clientId], references: [id])
+  clientId    String?
+  createdAt   DateTime             @default(now())
+  description String?
+  id          String               @id @default(cuid())
+  lawyer      Lawyer?              @relation(fields: [lawyerId], references: [id])
+  lawyerId    String?
+  status      EnumCaseModelStatus?
+  updatedAt   DateTime             @updatedAt
+}
+
+model User {
+  clients    Client[]
+  createdAt  DateTime  @default(now())
+  email      String?   @unique
+  firstName  String?
+  id         String    @id @default(cuid())
+  lastLogin  DateTime?
+  lastName   String?
+  lawyers    Lawyer[]
+  password   String
+  resetToken String?
+  roles      Json
+  updatedAt  DateTime  @updatedAt
+  username   String    @unique
+}
+
+enum EnumLawyerSpecialties {
+  Option1
+}
+
+enum EnumBookingStatus {
+  Option1
+}
+
+enum EnumPaymentStatus {
+  Option1
+}
+
+enum EnumCaseModelStatus {
+  Option1
+}
