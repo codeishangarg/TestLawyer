@@ -81,6 +81,36 @@ export const ClientShow = (props: ShowProps): React.ReactElement => {
           </Datagrid>
         </ReferenceManyField>
         <ReferenceManyField
+          reference="Invoice"
+          target="clientId"
+          label="Invoices"
+        >
+          <Datagrid rowClick="show">
+            <TextField label="amount" source="amount" />
+            <TextField label="caseReference" source="caseReference" />
+            <ReferenceField
+              label="client"
+              source="client.id"
+              reference="Client"
+            >
+              <TextField source={CLIENT_TITLE_FIELD} />
+            </ReferenceField>
+            <DateField source="createdAt" label="Created At" />
+            <TextField label="gst" source="gst" />
+            <TextField label="ID" source="id" />
+            <ReferenceField
+              label="lawyer"
+              source="lawyer.id"
+              reference="Lawyer"
+            >
+              <TextField source={LAWYER_TITLE_FIELD} />
+            </ReferenceField>
+            <TextField label="status" source="status" />
+            <TextField label="totalAmount" source="totalAmount" />
+            <DateField source="updatedAt" label="Updated At" />
+          </Datagrid>
+        </ReferenceManyField>
+        <ReferenceManyField
           reference="Payment"
           target="clientId"
           label="Payments"

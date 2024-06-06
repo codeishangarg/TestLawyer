@@ -18,6 +18,7 @@ import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { StringFilter } from "../../util/StringFilter";
 import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
 import { LawyerListRelationFilter } from "../../lawyer/base/LawyerListRelationFilter";
+import { SupportTicketListRelationFilter } from "../../supportTicket/base/SupportTicketListRelationFilter";
 
 @InputType()
 class UserWhereInput {
@@ -110,6 +111,18 @@ class UserWhereInput {
     nullable: true,
   })
   resetToken?: StringNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => SupportTicketListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => SupportTicketListRelationFilter)
+  @IsOptional()
+  @Field(() => SupportTicketListRelationFilter, {
+    nullable: true,
+  })
+  supportTickets?: SupportTicketListRelationFilter;
 
   @ApiProperty({
     required: false,

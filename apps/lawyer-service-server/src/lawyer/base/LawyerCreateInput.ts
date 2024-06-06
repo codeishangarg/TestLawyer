@@ -21,6 +21,7 @@ import {
 } from "class-validator";
 import { Type } from "class-transformer";
 import { CaseModelCreateNestedManyWithoutLawyersInput } from "./CaseModelCreateNestedManyWithoutLawyersInput";
+import { InvoiceCreateNestedManyWithoutLawyersInput } from "./InvoiceCreateNestedManyWithoutLawyersInput";
 import { PaymentCreateNestedManyWithoutLawyersInput } from "./PaymentCreateNestedManyWithoutLawyersInput";
 import { RatingCreateNestedManyWithoutLawyersInput } from "./RatingCreateNestedManyWithoutLawyersInput";
 import { EnumLawyerSpecialties } from "./EnumLawyerSpecialties";
@@ -51,6 +52,18 @@ class LawyerCreateInput {
     nullable: true,
   })
   cases?: CaseModelCreateNestedManyWithoutLawyersInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => InvoiceCreateNestedManyWithoutLawyersInput,
+  })
+  @ValidateNested()
+  @Type(() => InvoiceCreateNestedManyWithoutLawyersInput)
+  @IsOptional()
+  @Field(() => InvoiceCreateNestedManyWithoutLawyersInput, {
+    nullable: true,
+  })
+  invoices?: InvoiceCreateNestedManyWithoutLawyersInput;
 
   @ApiProperty({
     required: false,

@@ -30,6 +30,8 @@ import { ClientFindManyArgs } from "../../client/base/ClientFindManyArgs";
 import { Client } from "../../client/base/Client";
 import { LawyerFindManyArgs } from "../../lawyer/base/LawyerFindManyArgs";
 import { Lawyer } from "../../lawyer/base/Lawyer";
+import { SupportTicketFindManyArgs } from "../../supportTicket/base/SupportTicketFindManyArgs";
+import { SupportTicket } from "../../supportTicket/base/SupportTicket";
 import { UserService } from "../user.service";
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 @graphql.Resolver(() => User)
@@ -168,6 +170,26 @@ export class UserResolverBase {
     @graphql.Args() args: LawyerFindManyArgs
   ): Promise<Lawyer[]> {
     const results = await this.service.findLawyers(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => [SupportTicket], { name: "supportTickets" })
+  @nestAccessControl.UseRoles({
+    resource: "SupportTicket",
+    action: "read",
+    possession: "any",
+  })
+  async findSupportTickets(
+    @graphql.Parent() parent: User,
+    @graphql.Args() args: SupportTicketFindManyArgs
+  ): Promise<SupportTicket[]> {
+    const results = await this.service.findSupportTickets(parent.id, args);
 
     if (!results) {
       return [];

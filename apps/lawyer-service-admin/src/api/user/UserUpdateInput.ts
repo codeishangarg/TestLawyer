@@ -1,6 +1,7 @@
 import { ClientUpdateManyWithoutUsersInput } from "./ClientUpdateManyWithoutUsersInput";
 import { LawyerUpdateManyWithoutUsersInput } from "./LawyerUpdateManyWithoutUsersInput";
 import { InputJsonValue } from "../../types";
+import { SupportTicketUpdateManyWithoutUsersInput } from "./SupportTicketUpdateManyWithoutUsersInput";
 
 export type UserUpdateInput = {
   clients?: ClientUpdateManyWithoutUsersInput;
@@ -12,5 +13,6 @@ export type UserUpdateInput = {
   password?: string;
   resetToken?: string | null;
   roles?: InputJsonValue;
+  supportTickets?: SupportTicketUpdateManyWithoutUsersInput;
   username?: string;
 };

@@ -22,6 +22,7 @@ import {
 } from "class-validator";
 import { Type } from "class-transformer";
 import { CaseModel } from "../../caseModel/base/CaseModel";
+import { Invoice } from "../../invoice/base/Invoice";
 import { Payment } from "../../payment/base/Payment";
 import { Rating } from "../../rating/base/Rating";
 import { EnumLawyerSpecialties } from "./EnumLawyerSpecialties";
@@ -62,6 +63,15 @@ class Lawyer {
   @IsString()
   @Field(() => String)
   id!: string;
+
+  @ApiProperty({
+    required: false,
+    type: () => [Invoice],
+  })
+  @ValidateNested()
+  @Type(() => Invoice)
+  @IsOptional()
+  invoices?: Array<Invoice>;
 
   @ApiProperty({
     required: false,

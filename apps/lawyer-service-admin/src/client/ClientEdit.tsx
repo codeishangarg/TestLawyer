@@ -13,6 +13,7 @@ import {
 
 import { BookingTitle } from "../booking/BookingTitle";
 import { CaseModelTitle } from "../caseModel/CaseModelTitle";
+import { InvoiceTitle } from "../invoice/InvoiceTitle";
 import { PaymentTitle } from "../payment/PaymentTitle";
 import { RatingTitle } from "../rating/RatingTitle";
 import { UserTitle } from "../user/UserTitle";
@@ -38,6 +39,14 @@ export const ClientEdit = (props: EditProps): React.ReactElement => {
           <SelectArrayInput optionText={CaseModelTitle} />
         </ReferenceArrayInput>
         <TextInput label="contactInformation" source="contactInformation" />
+        <ReferenceArrayInput
+          source="invoices"
+          reference="Invoice"
+          parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
+          format={(value: any) => value && value.map((v: any) => v.id)}
+        >
+          <SelectArrayInput optionText={InvoiceTitle} />
+        </ReferenceArrayInput>
         <ReferenceArrayInput
           source="payments"
           reference="Payment"

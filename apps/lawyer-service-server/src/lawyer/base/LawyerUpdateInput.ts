@@ -21,6 +21,7 @@ import {
 } from "class-validator";
 import { Type } from "class-transformer";
 import { CaseModelUpdateManyWithoutLawyersInput } from "./CaseModelUpdateManyWithoutLawyersInput";
+import { InvoiceUpdateManyWithoutLawyersInput } from "./InvoiceUpdateManyWithoutLawyersInput";
 import { PaymentUpdateManyWithoutLawyersInput } from "./PaymentUpdateManyWithoutLawyersInput";
 import { RatingUpdateManyWithoutLawyersInput } from "./RatingUpdateManyWithoutLawyersInput";
 import { EnumLawyerSpecialties } from "./EnumLawyerSpecialties";
@@ -51,6 +52,18 @@ class LawyerUpdateInput {
     nullable: true,
   })
   cases?: CaseModelUpdateManyWithoutLawyersInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => InvoiceUpdateManyWithoutLawyersInput,
+  })
+  @ValidateNested()
+  @Type(() => InvoiceUpdateManyWithoutLawyersInput)
+  @IsOptional()
+  @Field(() => InvoiceUpdateManyWithoutLawyersInput, {
+    nullable: true,
+  })
+  invoices?: InvoiceUpdateManyWithoutLawyersInput;
 
   @ApiProperty({
     required: false,

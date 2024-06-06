@@ -14,6 +14,7 @@ import {
 
 import { BookingTitle } from "../booking/BookingTitle";
 import { CaseModelTitle } from "../caseModel/CaseModelTitle";
+import { InvoiceTitle } from "../invoice/InvoiceTitle";
 import { PaymentTitle } from "../payment/PaymentTitle";
 import { RatingTitle } from "../rating/RatingTitle";
 import { UserTitle } from "../user/UserTitle";
@@ -37,6 +38,14 @@ export const LawyerEdit = (props: EditProps): React.ReactElement => {
           format={(value: any) => value && value.map((v: any) => v.id)}
         >
           <SelectArrayInput optionText={CaseModelTitle} />
+        </ReferenceArrayInput>
+        <ReferenceArrayInput
+          source="invoices"
+          reference="Invoice"
+          parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
+          format={(value: any) => value && value.map((v: any) => v.id)}
+        >
+          <SelectArrayInput optionText={InvoiceTitle} />
         </ReferenceArrayInput>
         <TextInput label="location" source="location" />
         <ReferenceArrayInput

@@ -15,6 +15,7 @@ import { BookingCreateNestedManyWithoutClientsInput } from "./BookingCreateNeste
 import { ValidateNested, IsOptional, IsString } from "class-validator";
 import { Type } from "class-transformer";
 import { CaseModelCreateNestedManyWithoutClientsInput } from "./CaseModelCreateNestedManyWithoutClientsInput";
+import { InvoiceCreateNestedManyWithoutClientsInput } from "./InvoiceCreateNestedManyWithoutClientsInput";
 import { PaymentCreateNestedManyWithoutClientsInput } from "./PaymentCreateNestedManyWithoutClientsInput";
 import { RatingCreateNestedManyWithoutClientsInput } from "./RatingCreateNestedManyWithoutClientsInput";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
@@ -55,6 +56,18 @@ class ClientCreateInput {
     nullable: true,
   })
   contactInformation?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => InvoiceCreateNestedManyWithoutClientsInput,
+  })
+  @ValidateNested()
+  @Type(() => InvoiceCreateNestedManyWithoutClientsInput)
+  @IsOptional()
+  @Field(() => InvoiceCreateNestedManyWithoutClientsInput, {
+    nullable: true,
+  })
+  invoices?: InvoiceCreateNestedManyWithoutClientsInput;
 
   @ApiProperty({
     required: false,
